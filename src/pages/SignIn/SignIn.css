@@ -1,0 +1,4 @@
+.logo:hover,
+.link:hover {
+  cursor: pointer;
+}
