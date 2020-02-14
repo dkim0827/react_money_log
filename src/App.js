@@ -1,72 +1,108 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { HomeBefore, SignIn, SignUp } from "./pages";
+import { HomeBefore, SignIn, SignUp, UserEdit } from "./pages";
 import { User, Session } from "./api";
 import { NavBar } from "./components";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUser: null
-    };
-  }
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
 
-  getUser = () => {
+  const getUser = useCallback(() => {
     User.current().then(data => {
       if (typeof data.id !== "number") {
-        this.setState({ currentUser: null });
+        setCurrentUser(null);
       } else {
-        this.setState({ currentUser: data });
+        setCurrentUser(data);
       }
     });
+  }, []);
+
+  const destroySession = () => {
+    Session.destroy().then(setCurrentUser(null));
   };
 
-  destroySession = () => {
-    Session.destroy().then(this.setState({ currentUser: null }));
-  };
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
 
-  componentDidMount() {
-    this.getUser();
-  }
-
-  render() {
-    const { currentUser } = this.state;
-    if (!currentUser) {
-      return (
-        <BrowserRouter>
+  return (
+    <BrowserRouter>
+      {currentUser ? (
+        <>
+          <header>
+            <NavBar currentUser={currentUser} onSignOut={destroySession} />
+          </header>
           <Switch>
-            <Route exact path="/" component={HomeBefore} />
             <Route
-              path="/sign_up"
+              path="/user_edit"
               render={routeProps => (
-                <SignUp {...routeProps} onSignUp={this.getUser} />
-              )}
-            />
-            <Route
-              path="/sign_in"
-              render={routeProps => (
-                <SignIn {...routeProps} onSignIn={this.getUser} />
+                <UserEdit {...routeProps} currentUser={currentUser} />
               )}
             />
           </Switch>
-        </BrowserRouter>
-      );
-    } else {
-      return (
-        <BrowserRouter>
-          <header>
-            <NavBar
-              currentUser={this.state.currentUser}
-              onSignOut={this.destroySession}
-            />
-          </header>
-          <Switch></Switch>
-        </BrowserRouter>
-      );
-    }
-  }
-}
+        </>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={HomeBefore} />
+          <Route
+            path="/sign_up"
+            render={routeProps => <SignUp {...routeProps} onSignUp={getUser} />}
+          />
+          <Route
+            path="/sign_in"
+            render={routeProps => <SignIn {...routeProps} onSignIn={getUser} />}
+          />
+        </Switch>
+      )}
+    </BrowserRouter>
+  );
+};
+//     const { currentUser } = this.state;
+//     if (!currentUser) {
+//       return (
+//         <BrowserRouter>
+//           <Switch>
+//             <Route exact path="/" component={HomeBefore} />
+//             <Route
+//               path="/sign_up"
+//               render={routeProps => (
+//                 <SignUp {...routeProps} onSignUp={this.getUser} />
+//               )}
+//             />
+//             <Route
+//               path="/sign_in"
+//               render={routeProps => (
+//                 <SignIn {...routeProps} onSignIn={this.getUser} />
+//               )}
+//             />
+//           </Switch>
+//         </BrowserRouter>
+//       );
+//     } else {
+//       return (
+//         <BrowserRouter>
+// <header>
+//   <NavBar
+//     currentUser={this.state.currentUser}
+//     onSignOut={this.destroySession}
+//   />
+// </header>
+// <Switch>
+//   <Route
+//     path="/user_edit"
+//     render={routeProps => (
+//       <UserEdit
+//         {...routeProps}
+//         currentUser={this.state.currentUser}
+//       />
+//     )}
+//   />
+// </Switch>
+// </BrowserRouter>
+// );
+//   }
+// }
+// }
 
 export default App;
