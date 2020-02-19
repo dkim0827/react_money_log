@@ -36,7 +36,7 @@ const SignIn = props => {
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
+      <Grid.Column className="SignIn__template" style={{ maxWidth: 450 }}>
         <Grid.Row>
           <Logo onLogoClick={() => props.history.push("/")} />
         </Grid.Row>

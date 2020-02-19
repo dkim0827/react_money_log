@@ -33,6 +33,18 @@ const User = {
     }).then(res => res.json());
   },
 
+  // Edit a Password
+  password_update(id, params) {
+    return fetch(`${baseUrl}/users/${id}/password_edit`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
+  },
+
   // Destroy a User
   destroy(id) {
     return fetch(`${baseUrl}/users/${id}`, {

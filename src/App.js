@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { HomeBefore, SignIn, SignUp, UserEdit } from "./pages";
+import {
+  HomeBefore,
+  SignIn,
+  SignUp,
+  UserEdit,
+  HomeAfter,
+  PasswordEdit
+} from "./pages";
 import { User, Session } from "./api";
-import { NavBar } from "./components";
+import { NavBar, Spinner } from "./components";
 
-const App = () => {
+const App = props => {
   const [currentUser, setCurrentUser] = useState(null);
 
   const getUser = useCallback(() => {
@@ -34,10 +41,27 @@ const App = () => {
             <NavBar currentUser={currentUser} onSignOut={destroySession} />
           </header>
           <Switch>
+            <Route exact path="/" component={HomeAfter} />
             <Route
-              path="/user_edit"
+              exact
+              path="/users/:id/edit/"
               render={routeProps => (
-                <UserEdit {...routeProps} currentUser={currentUser} />
+                <UserEdit
+                  {...routeProps}
+                  onUserEdit={getUser}
+                  currentUser={currentUser}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/users/:id/edit/password"
+              render={routeProps => (
+                <PasswordEdit
+                  {...routeProps}
+                  onPasswordEdit={(getUser, destroySession)}
+                  currentUser={currentUser}
+                />
               )}
             />
           </Switch>
@@ -58,51 +82,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
-//     const { currentUser } = this.state;
-//     if (!currentUser) {
-//       return (
-//         <BrowserRouter>
-//           <Switch>
-//             <Route exact path="/" component={HomeBefore} />
-//             <Route
-//               path="/sign_up"
-//               render={routeProps => (
-//                 <SignUp {...routeProps} onSignUp={this.getUser} />
-//               )}
-//             />
-//             <Route
-//               path="/sign_in"
-//               render={routeProps => (
-//                 <SignIn {...routeProps} onSignIn={this.getUser} />
-//               )}
-//             />
-//           </Switch>
-//         </BrowserRouter>
-//       );
-//     } else {
-//       return (
-//         <BrowserRouter>
-// <header>
-//   <NavBar
-//     currentUser={this.state.currentUser}
-//     onSignOut={this.destroySession}
-//   />
-// </header>
-// <Switch>
-//   <Route
-//     path="/user_edit"
-//     render={routeProps => (
-//       <UserEdit
-//         {...routeProps}
-//         currentUser={this.state.currentUser}
-//       />
-//     )}
-//   />
-// </Switch>
-// </BrowserRouter>
-// );
-//   }
-// }
-// }
 
 export default App;

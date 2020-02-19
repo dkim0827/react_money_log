@@ -1,121 +1,108 @@
-// import React, { useState, useEffect } from "react";
-// import { User } from "../../api";
-// import {
-//   Button,
-//   Form,
-//   Grid,
-//   Header,
-//   Message,
-//   Segment
-// } from "semantic-ui-react";
-// import "./UserEdit.css";
-// import { Logo } from "../../components";
+import React, { useState, useEffect } from "react";
+import { User } from "../../api";
+import { Button, Form, Grid, Segment } from "semantic-ui-react";
+import { Logo, Spinner } from "../../components";
+import "./UserEdit.css";
 
-// const UserEdit = props => {
-//   const [errors, setErrors] = useState([]);
-//   const [user, setUser] = useState(props.currentUser);
+const UserEdit = props => {
+  const [errors, setErrors] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  console.log(props.currentUser);
 
-//   //   useEffect(user => {
-//   //     props.onUserEdit(user).then(user => {
-//   //       setUser(user);
-//   //     });
-//   //   }, []);
+  const updateUser = event => {
+    event.preventDefault();
+    const { currentTarget } = event;
+    const fd = new FormData(currentTarget);
 
-//   const handleChangeUser = (inputName = event => {
-//     if (inputName === "first_name") {
-//       setUser({ ...user, first_name: event.target.value });
-//     }
-//   });
+    const updatedUser = {
+      first_name: fd.get("first_name"),
+      last_name: fd.get("last_name"),
+      email: fd.get("email")
+    };
 
-//   const handleSubmit = event => {
-//     event.preventDefault();
-//     const { currentTarget: form } = event;
-//     const fd = new FormData(form);
+    console.log("updatedData: ", updatedUser);
+    User.update(props.match.params.id, updatedUser).then(response => {
+      if (response.status === 404) {
+        setErrors([]);
+        setErrors(response.errors);
+      } else {
+        setErrors([]);
+        setCurrentUser(fd);
+        props.onUserEdit();
+        props.history.push("/users/:id/edit");
+      }
+    });
+  };
 
-//     const User = {
-//       first_name: fd.get("first_name"),
-//       last_name: fd.get("last_name"),
-//       email: fd.get("email")
-//     };
+  useEffect(() => {
+    User.current(props.match.params.id).then(user => {
+      setCurrentUser(user);
+      setIsLoading(false);
+    });
+  }, [props.match.params.id]);
 
-//     User.update(User).then(response => {
-//       if (response.id) {
-//         if (typeof props.onUserEdit === "function") {
-//           props.onUserEdit();
-//         }
-//         props.history.push("/user_edit");
-//       } else {
-//         setErrors(response.errors);
-//       }
-//     });
-//   };
+  if (isLoading) {
+    return <Spinner message="Loading" />;
+  }
 
-//   return (
-//     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-//       <Grid.Column style={{ maxWidth: 450 }}>
-//         <Grid.Row>
-//           <Logo onLogoClick={() => props.history.push("/")} />
-//         </Grid.Row>
-//         <br />
-//         <Form size="large" onSubmit={handleSubmit}>
-//           <Segment stacked>
-//             <Header
-//               as="h2"
-//               color="teal"
-//               textAlign="center"
-//               className="signInHeader"
-//             ></Header>
-//             {errors.length > 0 ? (
-//               <div className="ui negative message">
-//                 <div className="header">There was a problem</div>
-//                 <p>{errors.join(", ")}</p>
-//               </div>
-//             ) : (
-//               ""
-//             )}
-//             <Form.Input
-//               fluid
-//               value={user.first_name}
-//               onChange={() => handleChangeUser("first_name")}
-//               type="text"
-//               name="first_name"
-//               placeholder="First Name"
-//             />
-//             <Form.Input
-//               fluid
-//               type="text"
-//               name="last_name"
-//               placeholder="Last Name"
-//             />
-//             <Form.Input
-//               fluid
-//               icon="user"
-//               iconPosition="left"
-//               type="email"
-//               name="email"
-//               placeholder="E-mail address"
-//               required
-//             />
-//             <Button color="teal" fluid size="large" type="submit">
-//               Edit Profile
-//             </Button>
-//           </Segment>
-//         </Form>
-//         <Message>
-//           <Button
-//             color="teal"
-//             fluid
-//             size="large"
-//             onClick={() => {
-//               props.history.push("sign_in");
-//             }}
-//           >
-//             Change Password
-//           </Button>
-//         </Message>
-//       </Grid.Column>
-//     </Grid>
-//   );
-// };
+  return (
+    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+      <Grid.Column className="UserEdit__template" style={{ maxWidth: 450 }}>
+        <Grid.Row>
+          <Logo onLogoClick={() => props.history.push("/")} />
+        </Grid.Row>
+        <br />
+        <Form size="large" onSubmit={updateUser}>
+          <Segment>
+            {errors.length > 0 ? (
+              <div className="ui negative message">
+                <div className="header">There was a problem</div>
+                <p>{errors.join(", ")}</p>
+              </div>
+            ) : (
+              ""
+            )}
+            <Form.Input
+              fluid
+              type="text"
+              name="first_name"
+              defaultValue={props.currentUser.first_name}
+            />
+            <Form.Input
+              fluid
+              type="text"
+              name="last_name"
+              defaultValue={props.currentUser.last_name}
+            />
+            <Form.Input
+              fluid
+              icon="user"
+              iconPosition="left"
+              type="email"
+              name="email"
+              defaultValue={props.currentUser.email}
+              required
+            />
+            <Button color="teal" fluid size="large" type="submit">
+              Update Profile
+            </Button>
+            <Button
+              className="UserEdit__passbutton"
+              color="teal"
+              fluid
+              size="large"
+              onClick={() => {
+                props.history.push(`/users/${currentUser.id}/edit/password`);
+              }}
+            >
+              Change Password
+            </Button>
+          </Segment>
+        </Form>
+      </Grid.Column>
+    </Grid>
+  );
+};
 
-// export default UserEdit;
+export default UserEdit;

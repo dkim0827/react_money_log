@@ -41,7 +41,7 @@ const SignUp = props => {
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
+      <Grid.Column className="SignUp__template" style={{ maxWidth: 450 }}>
         <Grid.Row>
           <Logo onLogoClick={() => props.history.push("/")} />
         </Grid.Row>
@@ -101,15 +101,7 @@ const SignUp = props => {
               name="password_confirmation"
               required
             />
-            <Button
-              color="teal"
-              fluid
-              size="large"
-              type="submit"
-              // onClick={() => {
-
-              // }}
-            >
+            <Button color="teal" fluid size="large" type="submit">
               Sign-Up
             </Button>
           </Segment>

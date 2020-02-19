@@ -1,11 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 const NavBar = ({ currentUser, onSignOut }) => {
+  let history = useHistory();
+
   const handleSignOutClick = event => {
     event.preventDefault();
     if (typeof onSignOut === "function") {
       onSignOut();
+      history.push("/");
     }
   };
   return (
@@ -13,21 +16,20 @@ const NavBar = ({ currentUser, onSignOut }) => {
       <NavLink exact to="/" className="item">
         Home
       </NavLink>
+      <NavLink exact to="/about" className="item">
+        About Us
+      </NavLink>
+      <NavLink exact to="/statements" className="item">
+        Statements
+      </NavLink>
       <div className="right menu">
-        {!currentUser && (
-          <>
-            <NavLink exact to="/sign_in" className="ui black button">
-              Sign In
-            </NavLink>
-            <NavLink exact to="/sign_up" className="ui black button">
-              Sign Up
-            </NavLink>
-          </>
-        )}
         {currentUser && (
           <>
             <div className="item">
-              Hello, {currentUser.first_name + " " + currentUser.last_name}
+              Hello,{" "}
+              <NavLink exact to={`/users/${currentUser.id}/edit/`}>
+                {currentUser.first_name + " " + currentUser.last_name}
+              </NavLink>
             </div>
             <button
               className="ui inverted red button"

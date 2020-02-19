@@ -2,3 +2,8 @@
 .link:hover {
   cursor: pointer;
 }
+
+.SignIn__template {
+  padding-left: 2em !important;
+  padding-right: 1em !important;
+}
