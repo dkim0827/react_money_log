@@ -5,7 +5,7 @@ import { Logo, Spinner } from "../../components";
 import "./UserEdit.css";
 
 const UserEdit = props => {
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState("");
   const [currentUser, setCurrentUser] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   console.log(props.currentUser);
@@ -21,16 +21,15 @@ const UserEdit = props => {
       email: fd.get("email")
     };
 
-    console.log("updatedData: ", updatedUser);
     User.update(props.match.params.id, updatedUser).then(response => {
       if (response.status === 404) {
-        setErrors([]);
+        setErrors("");
         setErrors(response.errors);
       } else {
-        setErrors([]);
+        setErrors("");
         setCurrentUser(fd);
         props.onUserEdit();
-        props.history.push("/users/:id/edit");
+        // props.history.push("/users/:id/edit");
       }
     });
   };
@@ -58,7 +57,7 @@ const UserEdit = props => {
             {errors.length > 0 ? (
               <div className="ui negative message">
                 <div className="header">There was a problem</div>
-                <p>{errors.join(", ")}</p>
+                <div>{errors}</div>
               </div>
             ) : (
               ""

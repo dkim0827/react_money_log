@@ -7,10 +7,15 @@ import {
   SignUp,
   UserEdit,
   HomeAfter,
-  PasswordEdit
+  PasswordEdit,
+  StatementShow,
+  StatementAll
 } from "./pages";
 import { User, Session } from "./api";
 import { NavBar, Spinner } from "./components";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const App = props => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -37,11 +42,14 @@ const App = props => {
     <BrowserRouter>
       {currentUser ? (
         <>
-          <header>
+          {/* <header>
             <NavBar currentUser={currentUser} onSignOut={destroySession} />
-          </header>
+          </header> */}
+          <NavBar currentUser={currentUser} onSignOut={destroySession}></NavBar>
           <Switch>
             <Route exact path="/" component={HomeAfter} />
+            <Route exact path="/statements" component={StatementAll} />
+            <Route exact path="/statements/:id" component={StatementShow} />
             <Route
               exact
               path="/users/:id/edit/"

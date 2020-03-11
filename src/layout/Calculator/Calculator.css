@@ -1,0 +1,114 @@
+:root {
+  --color-white: #fff;
+  --color-light-white: #eee;
+
+  --color-tomato: #d40640;
+  --color-purple-transparent: rgba(88, 24, 69, 9);
+  --color-pink-transparent: rgba(216, 14, 91, 0.9);
+
+  --color-orange: #ff3c00;
+
+  --color-light-black: #222;
+  --color-black: #000;
+
+  --shadow: rgba(0, 0, 0, 3);
+}
+
+main.calculator {
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(58, 52, 52, 0.4) !important;
+  background-color: var(--color-white);
+}
+
+.result-screen {
+  background-color: #00b5ad;
+  color: #ffffff;
+  font-weight: 600;
+  height: 5vh;
+  font-size: 2em;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 10px;
+}
+
+.computation-screen {
+  font-size: 1.2em;
+  font-weight: 200;
+  color: #ffffff;
+  background-color: #00b5ad;
+  height: 3vh;
+
+  text-align: end;
+  margin-top: 5px;
+  padding: 0 10px;
+}
+
+.screen {
+  background-color: #505050;
+  padding: 0.5em 1em;
+  white-space: no-wrap;
+  color: var(--color-light-white);
+  background-color: #00b5ad;
+  overflow: hidden;
+}
+
+.keypad__row {
+  color: white;
+}
+
+/* .keypad {
+  background-color: #1c1c1c;
+} */
+
+button.btn {
+  width: 25%;
+  height: 50px;
+  font-weight: 500;
+  background-color: var(--color-white);
+  font-family: inherit;
+  border: 1px solid transparent;
+  font-size: 1.5em;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:hover {
+  color: var(--color-light-white);
+  background-color: #00b5ad;
+  cursor: pointer;
+}
+
+.btn--primary {
+  color: #00b5ad;
+}
+
+.btn--operator {
+  color: #00b5ad;
+}
+
+.btn.btn--large {
+  width: 50%;
+  color: var(--color-white);
+  background-color: #00b5ad;
+  transition: all 0.2s;
+}
+
+.btn--large:hover {
+  cursor: pointer;
+}
+
+/* button.btn.btn--operator {
+  font-weight: 500;
+  background-color: #ff9500;
+  color: #ffffff;
+} */
+
+/* .keypad__row:nth-child(1) > button:nth-child(3) {
+  background-color: #636262;
+} */

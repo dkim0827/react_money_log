@@ -20,11 +20,13 @@ const SignUp = props => {
     const fd = new FormData(form);
 
     const newUser = {
-      first_name: fd.get("first_name"),
-      last_name: fd.get("last_name"),
-      email: fd.get("email"),
-      password: fd.get("password"),
-      password_confirmation: fd.get("password_confirmation")
+      user: {
+        first_name: fd.get("first_name"),
+        last_name: fd.get("last_name"),
+        email: fd.get("email"),
+        password: fd.get("password"),
+        password_confirmation: fd.get("password_confirmation")
+      }
     };
 
     User.create(newUser).then(response => {
