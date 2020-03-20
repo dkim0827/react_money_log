@@ -4,8 +4,8 @@ import SignIn from "./SignIn/SignIn";
 import SignUp from "./SignUp/SignUp";
 import UserEdit from "./UserEdit/UserEdit";
 import PasswordEdit from "./UserEdit/PasswordEdit";
-import StatementShow from "./Statement/StatementShow";
-import StatementAll from "./Statement/StatementAll";
+import StatementShow from "./statement/StatementShow";
+import StatementAll from "./statement/StatementAll";
 
 export {
   HomeBefore,
