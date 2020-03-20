@@ -1,70 +1,47 @@
 import React from "react";
+
 import KeypadRow from "./KeypadRow/KeypadRow";
-import Button from "../../../components/Button/Button";
-import LargeButton from "../../../components/Button/LargeButton/LargeButton";
-const keypad = props => (
-  <section className="keypad">
-    <KeypadRow>
-      <Button type="primary" onButtonPress={props.onButtonPress}>
-        C
-      </Button>
-      <Button type="primary" onButtonPress={props.onButtonPress}>
-        &larr;
-      </Button>
-      <Button type="operator" onButtonPress={props.onButtonPress}>
-        %
-      </Button>
-      <Button type="operator" onButtonPress={props.onButtonPress}>
-        /
-      </Button>
-    </KeypadRow>
 
-    <KeypadRow>
-      <Button onButtonPress={props.onButtonPress}>9</Button>
-      <Button onButtonPress={props.onButtonPress}>8</Button>
-      <Button onButtonPress={props.onButtonPress}>7</Button>
-      <Button
-        className="button__side"
-        type="operator"
-        onButtonPress={props.onButtonPress}
-      >
-        *
-      </Button>
-    </KeypadRow>
+const Keypad = ({ onButtonPress }) => {
+  return(
+    <section className="keypad">
+      <KeypadRow
+        inputs={["C", "←", "%", "/"]}
+        types={["primary", "primary", "operator", "operator"]}
+        onButtonPress={onButtonPress}
+        classes={[]}
+      />
 
-    <KeypadRow>
-      <Button onButtonPress={props.onButtonPress}>6</Button>
-      <Button onButtonPress={props.onButtonPress}>5</Button>
-      <Button onButtonPress={props.onButtonPress}>4</Button>
-      <Button
-        className="button__side"
-        type="operator"
-        onButtonPress={props.onButtonPress}
-      >
-        -
-      </Button>
-    </KeypadRow>
+      <KeypadRow 
+        inputs={["9", "8", "7", "*"]}
+        types={[,,,"operator"]}
+        classes={[,,,"button__side"]}
+        onButtonPress={onButtonPress}
+      />
 
-    <KeypadRow>
-      <Button onButtonPress={props.onButtonPress}>3</Button>
-      <Button onButtonPress={props.onButtonPress}>2</Button>
-      <Button onButtonPress={props.onButtonPress}>1</Button>
-      <Button
-        className="button__side"
-        type="operator"
-        onButtonPress={props.onButtonPress}
-      >
-        +
-      </Button>
-    </KeypadRow>
+      <KeypadRow 
+        inputs={["6", "5", "4", "-"]}
+        types={[,,,"operator"]}
+        classes={[,,,"button__side"]}
+        onButtonPress={onButtonPress}
+      />
 
-    <KeypadRow>
-      <Button onButtonPress={props.onButtonPress}>0</Button>
-      <Button onButtonPress={props.onButtonPress}>.</Button>
-      <LargeButton className="button__side" onButtonPress={props.onButtonPress}>
-        =
-      </LargeButton>
-    </KeypadRow>
-  </section>
-);
-export default keypad;
+      <KeypadRow
+        inputs={["3", "2", "1", "+"]}
+        types={[,,,"operator"]}
+        classes={[,,,"button__side"]}
+        onButtonPress={onButtonPress}
+      />
+
+      <KeypadRow 
+        inputs={["0", ".", "="]}
+        types={[,,"large"]}
+        classes={[,,"button__side"]}
+        onButtonPress={onButtonPress}
+      />
+
+    </section>
+  );
+};
+
+export default Keypad;
