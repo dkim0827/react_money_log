@@ -25,18 +25,26 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const trans_options = [
+const txn_options = [
   { key: "income", text: "Income", value: "INCOME" },
   { key: "savings", text: "Savings", value: "SAVINGS" },
-  { key: "le", text: "Monthly Expense", value: "LE" },
-  { key: "nle", text: "Daily", value: "NLE" }
+  { key: "recurring", text: "Recurring", value: "RECURRING" },
+  { key: "nonRecurring", text: "Non-Recurring", value: "NON-RECURRING" }
 ];
 
 const category_options = [
-  { key: "drink", text: "Drink", value: "DRINK", name: "category" },
-  { key: "food", text: "Food", value: "FOOD", name: "category" },
-  { key: "want", text: "Want", value: "WANT", name: "category" },
-  { key: "others", text: "Others", value: "OTHERS", name: "category" }
+  { key: "autoTransport", text: "Auto & Transport", value: "AUTO & TRANSPORT", name: "category" },
+  { key: "billsUtilities", text: "Bills & Utilities", value: "BILLS & UTILITIES", name: "category" },
+  { key: "charity", text: "Charity", value: "CHARITY", name: "category" },
+  { key: "education", text: "Education", value: "EDUCATION", name: "category" },
+  { key: "foodDrinks", text: "Food & Drinks", value: "FOOD & DRINKS", name: "category" },
+  { key: "healthFitness", text: "Health & Fitness", value: "HEALTH & FITNESS", name: "category" },
+  { key: "membershipsSubscriptions", text: "Memberships & Subscriptions", value: "MEMBERSHIPS & SUBSCRIPTIONS", name: "category" },
+  { key: "personalCare", text: "Personal Care", value: "PERSONAL CARE", name: "category" },
+  { key: "rent", text: "Rent", value: "RENT", name: "category" },
+  { key: "shopping", text: "Shopping", value: "SHOPPING", name: "category" },
+  { key: "travel", text: "Travel", value: "TRAVEL", name: "category" },
+  { key: "miscellaneous", text: "Miscellaneous", value: "MISCELLANEOUS", name: "category" }
 ];
 
 const StatementShow = props => {
@@ -56,16 +64,12 @@ const StatementShow = props => {
   const [errors, setErrors] = useState("");
   const [startDate, setStartDate] = useState(new Date());
 
-  const [incomeCreate, setIncomeCreate] = useState(false);
-  const [incomeEdit, setIncomeEdit] = useState(false);
-  const [savingsCreate, setSavingsCreate] = useState(false);
-  const [savingsEdit, setSavingsEdit] = useState(false);
-  const [monthlyCreate, setMonthlyCreate] = useState(false);
-  const [monthlyEdit, setMonthlyEdit] = useState(false);
-  const [dailyCreate, setDailyCreate] = useState(false);
-  const [dailyEdit, setDailyEdit] = useState(false);
+  const [income, setIncome] = useState({create: false, edit: false});
+  const [savings, setSavings] = useState({create: false, edit: false});
+  const [recurringExpenses, setRecurringExpenses] = useState({create: false, edit: false});
+  const [nonRecurringExpenses, setNonRecurringExpenses] = useState({create: false, edit: false});
 
-  const [dailyTransactions, setDailyTransactions] = useState({
+  const [nonRecurringTransactions, setNonRecurringTransactions] = useState({
     trasnactions: [],
     total: 0
   });
@@ -91,10 +95,10 @@ const StatementShow = props => {
     Transaction.create(props.match.params.id, newTransaction).then(response => {
       if (response.id) {
         setErrors("");
-        setIncomeCreate(false);
-        setSavingsCreate(false);
-        setMonthlyCreate(false);
-        setDailyCreate(false);
+        setIncome({...savings, create: false});
+        setSavings({...savings, create: false});
+        setRecurringExpenses({...recurringExpenses, create: false});
+        setNonRecurringExpenses({...nonRecurringExpenses, create: false});
         setFormData({
           transaction: {
             id: "",
@@ -107,7 +111,7 @@ const StatementShow = props => {
         });
         Statement.one(props.match.params.id).then(statement => {
           setStatement(statement);
-          setDailyTransactions({
+          setNonRecurringTransactions({
             transactions: statement.non_living_expense_transactions,
             total: statement.non_living_expense_total
           });
@@ -148,13 +152,13 @@ const StatementShow = props => {
               amount: ""
             }
           });
-          setIncomeEdit(false);
-          setSavingsEdit(false);
-          setMonthlyEdit(false);
-          setDailyEdit(false);
+          setIncome({...income, edit: false});
+          setSavings({...savings, edit: false});
+          setRecurringExpenses({...recurringExpenses, edit: false});
+          setNonRecurringExpenses({...nonRecurringExpenses, edit: false});
           Statement.one(props.match.params.id).then(statement => {
             setStatement(statement);
-            setDailyTransactions({
+            setNonRecurringTransactions({
               transactions: statement.non_living_expense_transactions,
               total: statement.non_living_expense_total
             });
@@ -169,15 +173,15 @@ const StatementShow = props => {
     Transaction.destroy(props.match.params.id, formData.transaction.id);
     Statement.one(props.match.params.id).then(statement => {
       setStatement(statement);
-      setDailyTransactions({
+      setNonRecurringTransactions({
         transactions: statement.non_living_expense_transactions,
         total: statement.non_living_expense_total
       });
     });
-    setIncomeEdit(false);
-    setSavingsEdit(false);
-    setMonthlyEdit(false);
-    setDailyEdit(false);
+    setIncome({...income, edit: false});
+    setSavings({...savings, edit: false});
+    setRecurringExpenses({...recurringExpenses, edit: false});
+    setNonRecurringExpenses({...nonRecurringExpenses, edit: false});
     setFormData({
       transaction: {
         id: "",
@@ -212,32 +216,32 @@ const StatementShow = props => {
       sum += parseFloat(transaction.amount);
     });
     if (event.target.id) {
-      setDailyTransactions({
+      setNonRecurringTransactions({
         transactions: transactionList,
         total: sum
       });
     } else {
-      setDailyTransactions({
+      setNonRecurringTransactions({
         transactions: statement.non_living_expense_transactions,
         total: statement.non_living_expense_total
       });
     }
   };
 
-  const createOpen = () => setIncomeCreate(true);
-  const createClose = () => setIncomeCreate(false);
+  const createOpen = () => setIncome({...income, create: true});
+  const createClose = () => setIncome({...income, create: false});
 
-  const createOpen2 = () => setSavingsCreate(true);
-  const createClose2 = () => setSavingsCreate(false);
+  const createOpen2 = () => setSavings({...savings, create: true});
+  const createClose2 = () => setSavings({...savings, create: false});
 
-  const createOpen3 = () => setMonthlyCreate(true);
-  const createClose3 = () => setMonthlyCreate(false);
+  const createOpen3 = () => setRecurringExpenses({...recurringExpenses, create: true});
+  const createClose3 = () => setRecurringExpenses({...recurringExpenses, create: false});
 
-  const createOpen4 = () => setDailyCreate(true);
-  const createClose4 = () => setDailyCreate(false);
+  const createOpen4 = () => setNonRecurringExpenses({...nonRecurringExpenses, create: true});
+  const createClose4 = () => setNonRecurringExpenses({...nonRecurringExpenses, create: false});
 
   const editOpen = data => {
-    setIncomeEdit(true);
+    setIncome({...income, edit: true});
     setFormData({
       transaction: {
         id: data.id,
@@ -259,13 +263,13 @@ const StatementShow = props => {
       setStartDate(new Date(defaultYear, defaultMonth, defaultDay));
     }
   };
-  const editClose = () => setIncomeEdit(false);
-  const editOpen2 = () => setSavingsEdit(true);
-  const editClose2 = () => setSavingsEdit(false);
-  const editOpen3 = () => setMonthlyEdit(true);
-  const editClose3 = () => setMonthlyEdit(false);
-  const editOpen4 = () => setDailyEdit(true);
-  const editClose4 = () => setDailyEdit(false);
+  const editClose = () => setIncome({...income, edit: false});
+  const editOpen2 = () => setSavings({...savings, edit: true});
+  const editClose2 = () => setSavings({...savings, edit: false});
+  const editOpen3 = () => setRecurringExpenses({...recurringExpenses, edit: true});
+  const editClose3 = () => setRecurringExpenses({...recurringExpenses, edit: false});
+  const editOpen4 = () => setNonRecurringExpenses({...nonRecurringExpenses, edit: true});
+  const editClose4 = () => setNonRecurringExpenses({...nonRecurringExpenses, edit: false});
 
   const formatDate = input => {
     const dateArray = input.split("T");
@@ -294,10 +298,13 @@ const StatementShow = props => {
     Statement.one(props.match.params.id).then(statement => {
       setStatement(statement);
       setpieChart({
-        labels: ["Drink", "Food", "Want", "Others"],
+        labels: ["Auto & Transport", "Bills & Utilities", "Charity", 
+                "Education", "Food & Drinks", "Health & Fitness", 
+                "Memberships & Subscriptions", "Personal Care",
+                "Rent", "Shopping", "Travel", "Miscellaneous"],
         datasets: [
           {
-            label: "Non-Living Expense",
+            label: "Non-Recurring Expenses",
             backgroundColor: ["#C9DE00", "#2FDE00", "#00A6B4", "#6800B4"],
             hoverBackgroundColor: ["#4B5000", "#175000", "#003350", "#35014F"],
             data: [
@@ -309,7 +316,7 @@ const StatementShow = props => {
           }
         ]
       });
-      setDailyTransactions({
+      setNonRecurringTransactions({
         transactions: statement.non_living_expense_transactions,
         total: statement.non_living_expense_total
       });
@@ -318,14 +325,14 @@ const StatementShow = props => {
   }, []);
 
   if (isLoading) {
-    return <Spinner message="Preparing to show statement. Please Wait..." />;
+    return <Spinner message="Preparing statement..." />;
   }
   return (
     <>
       <Modal
         as={Form}
         onSubmit={handleSubmit}
-        open={incomeCreate}
+        open={income.create}
         onClose={createClose}
         size="tiny"
         closeIcon
@@ -385,7 +392,7 @@ const StatementShow = props => {
       <Modal
         as={Form}
         onSubmit={handleSubmit}
-        open={savingsCreate}
+        open={savings.create}
         onClose={createClose2}
         size="tiny"
         closeIcon
@@ -444,7 +451,7 @@ const StatementShow = props => {
       <Modal
         as={Form}
         onSubmit={handleSubmit}
-        open={monthlyCreate}
+        open={recurringExpenses.create}
         onClose={createClose3}
         size="tiny"
         closeIcon
@@ -452,7 +459,7 @@ const StatementShow = props => {
       >
         <Modal.Content>
           <Header as="h2" className="incomeHeader living_expense">
-            Monthly Transaction
+            Recurring Transactions
           </Header>
           <Segment className="modal__box">
             {errors && (
@@ -504,7 +511,7 @@ const StatementShow = props => {
       <Modal
         as={Form}
         onSubmit={handleSubmit}
-        open={dailyCreate}
+        open={nonRecurringExpenses.create}
         onClose={createClose4}
         size="tiny"
         closeIcon
@@ -512,7 +519,7 @@ const StatementShow = props => {
       >
         <Modal.Content>
           <Header as="h2" className="incomeHeader non_living_expense">
-            Daily Transaction
+            Non-Recurring Transactions
           </Header>
           <Segment className="modal__box">
             {errors && (
@@ -571,7 +578,7 @@ const StatementShow = props => {
       <Modal
         as={Form}
         onSubmit={handleEdit}
-        open={incomeEdit}
+        open={income.edit}
         onClose={editClose}
         size="tiny"
         closeIcon
@@ -775,7 +782,7 @@ const StatementShow = props => {
           <Segment
             className="table__title living_expense"
             attached="top"
-            content="Monthly Expense"
+            content="Recurring Expenses"
             onClick
           />
           <Table celled selectable>
@@ -824,7 +831,7 @@ const StatementShow = props => {
           <Segment
             className="table__title non_living_expense nle_hover"
             attached="top"
-            content="Daily Expense"
+            content="Non-Recurring Expenses"
             onClick={e => handleCategory(e)}
           />
           <Segment className="nle_breakdown" attached="top">
@@ -879,7 +886,7 @@ const StatementShow = props => {
                   </Button>
                 </Table.Cell>
               </Table.Row>
-              {dailyTransactions.transactions.map(nle => (
+              {nonRecurringTransactions.transactions.map(nle => (
                 <Table.Row key={nle.id} onClick={() => editOpen(nle)}>
                   <Table.Cell collapsing>
                     {formatDate(nle.trans_date)}{" "}
@@ -898,7 +905,7 @@ const StatementShow = props => {
                   <strong>Total</strong>
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-                  <strong>{formatAmount(dailyTransactions.total)}</strong>
+                  <strong>{formatAmount(nonRecurringTransactions.total)}</strong>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Footer>
