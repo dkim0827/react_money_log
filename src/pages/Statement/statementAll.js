@@ -199,7 +199,7 @@ const HomeAfter = () => {
               >
                 {/* <Link to={`/statements/${statement.id}`}> */}
                 <Table.Cell textAlign="center">
-                  {formatPeriod(statement.title)}
+                  {statement.title}
                 </Table.Cell>
                 <Table.Cell textAlign="center">
                   ${statement.income_total}

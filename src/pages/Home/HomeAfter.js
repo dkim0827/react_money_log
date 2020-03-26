@@ -118,7 +118,7 @@ export const HomeAfter = () => {
       statements.forEach(statement => {
         const shortenLabel =
           statement.title.substring(0, 3) +
-          ", " +
+          " " +
           statement.title.substring(
             statement.title.length - 4,
             statement.title.length
@@ -159,14 +159,14 @@ export const HomeAfter = () => {
             hidden: true
           },
           {
-            label: "Monthly Expense",
+            label: "Monthly Expenses",
             backgroundColor: "#ffa726",
             data: living_expense_total.slice(0, 12).reverse(),
             stack: "expense",
             hidden: true
           },
           {
-            label: "Daily Expense",
+            label: "Daily Expenses",
             backgroundColor: "#ef5350",
             data: non_living_expense_total.slice(0, 12).reverse(),
             stack: "expense",
@@ -201,7 +201,7 @@ export const HomeAfter = () => {
                   <Icon name="calculator" size="huge" />
                 </div>
                 <div className="box__last">
-                  Budget Left
+                  Remaining Budget
                   <h1>
                     ${currentStatement["statement_total"] || (0).toFixed(2)}
                   </h1>
@@ -259,7 +259,7 @@ export const HomeAfter = () => {
                   <Icon name="home" size="huge" />
                 </div>
                 <div className="box__last">
-                  Monthly Expense
+                  Monthly Expenses
                   <h1>
                     $
                     {currentStatement["living_expense_total"] || (0).toFixed(2)}
@@ -279,7 +279,7 @@ export const HomeAfter = () => {
                   <Icon name="cart arrow down" size="huge" />
                 </div>
                 <div className="box__last">
-                  Daily Expense
+                  Daily Expenses
                   <h1>
                     $
                     {currentStatement["non_living_expense_total"] ||
@@ -302,7 +302,7 @@ export const HomeAfter = () => {
                     maintainAspectRatio: false,
                     title: {
                       display: true,
-                      text: "Statement Log",
+                      text: "Summary",
                       fontSize: 20
                     },
                     legend: {
@@ -364,7 +364,7 @@ export const HomeAfter = () => {
                   data={
                     currentStatement["statement_total"] >= 0
                       ? {
-                          labels: ["Used", "Left"],
+                          labels: ["Spent", "Remaining"],
                           datasets: [
                             {
                               data: [

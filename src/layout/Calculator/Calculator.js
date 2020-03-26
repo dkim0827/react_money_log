@@ -1,50 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+
 import Screen from "./Screen/Screen";
 import Keypad from "./Keypad/Keypad";
 import "./Calculator.css";
-class Calculator extends React.Component {
-  state = {
-    equation: "",
-    result: 0
-  };
-  onButtonPress = event => {
-    let equation = this.state.equation;
-    const pressedButton = event.target.innerHTML;
-    if (pressedButton === "C") return this.clear();
-    else if (
-      (pressedButton >= "0" && pressedButton <= "9") ||
-      pressedButton === "."
-    )
-      equation += pressedButton;
-    else if (["+", "-", "*", "/", "%"].indexOf(pressedButton) !== -1)
-      equation += " " + pressedButton + " ";
-    else if (pressedButton === "=") {
-      try {
-        const evalResult = eval(equation);
-        const result = Number.isInteger(evalResult)
-          ? evalResult
-          : evalResult.toFixed(2);
-        this.setState({ result });
-      } catch (error) {
-        alert("Invalid Mathematical Equation");
-      }
-    } else {
-      equation = equation.trim();
-      equation = equation.substr(0, equation.length - 1);
-    }
 
-    this.setState({ equation: equation });
+const Calculator = () => {
+  let [equation, setEquation] = useState("");
+  const [result, setResult] = useState(0);
+
+  const onButtonPress = event => {
+    const pressedButton = event.target.innerHTML;
+
+    switch(true) {
+      case pressedButton === "C":
+        return clear();
+      case pressedButton >= "0" && pressedButton <= "9" || pressedButton === ".":
+        return setEquation(equation + pressedButton);
+      case ["+", "-", "*", "/", "%"].indexOf(pressedButton) !== -1:
+        return equation += " " + pressedButton + " ";
+      case pressedButton === "=":
+        try {
+          const evalResult = eval(equation);
+          result === Number.isInteger(evalResult) ? setResult(evalResult) : setResult(evalResult.toFixed(2));
+        } catch (error) {
+          alert("Invalid Mathematical Equation");
+        };
+        break;
+      default:
+        return setEquation(equation.trim().substr(0, equation.length - 1));
+    };
   };
-  clear() {
-    this.setState({ equation: "", result: 0 });
-  }
-  render() {
-    return (
-      <main className="calculator">
-        <Screen equation={this.state.equation} result={this.state.result} />
-        <Keypad onButtonPress={this.onButtonPress} />
-      </main>
-    );
-  }
-}
+
+  const clear = () => {
+    setEquation("");
+    setResult(0);
+  };
+
+  return (
+    <main className="calculator">
+      <Screen equation={equation} result={result} />
+      <Keypad onButtonPress={onButtonPress} />
+    </main>
+  );
+};
+
 export default Calculator;
