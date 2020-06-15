@@ -1,0 +1,167 @@
+.budget_box {
+  border: 3px solid #c0c0c0;
+  padding: 5px 3em;
+  border-radius: 10px;
+}
+
+button.ui.button.transaction__add {
+  padding: 5px 5px !important;
+  margin: 0 !important;
+}
+
+i.transaction__add {
+  margin: 0px !important;
+}
+
+.memo_header > i {
+  float: right;
+}
+/* table > tbody > tr:first-child > td {
+  padding: 0px;
+} */
+
+input.description_input,
+input.date_input {
+  border: none;
+  width: 100%;
+}
+
+.incomeHeader {
+  text-align: center;
+  color: #ffffff !important;
+  padding: 20px 0px !important;
+}
+
+.nle_breakdown {
+  padding: 10px 10px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+div.content {
+  padding: 0 !important;
+}
+
+.modal__header {
+  text-align: center;
+}
+
+.table__title {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.modal_edit {
+  background-color: #00b5ad !important;
+}
+
+.statement_memo {
+  min-height: 18vh;
+  margin-top: 0px !important;
+  background-color: #fff68f !important;
+}
+
+.memo_header {
+  background-color: #783c00 !important;
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+}
+
+.title_block {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.nle_hover:hover {
+  cursor: pointer;
+}
+
+div.printIcon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+div.printIcon:hover {
+  cursor: pointer;
+}
+
+@media print {
+  div.ui.secondary.pointing.menu {
+    display: none !important;
+  }
+
+  div.center.aligned.four.wide.column {
+    display: none;
+  }
+
+  .mainGrid {
+    width: 100% !important;
+    margin-right: -3cm;
+    display: flex !important;
+    justify-content: center;
+  }
+
+  .adding_item_row {
+    display: none;
+  }
+
+  div.ui.section.divider {
+    display: none;
+  }
+
+  #table {
+    max-width: 2480px;
+    width: 100%;
+  }
+
+  #table td {
+    width: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+
+  td,
+  th {
+    padding: 2px 5px !important;
+    font-size: 10pt;
+  }
+
+  .nle_breakdown,
+  i.print.large.icon.printIcon::before {
+    display: none;
+  }
+
+  .ui.top.attached.segment.table__title {
+    border: 1pt solid black !important;
+    box-shadow: none !important;
+    padding: 0px;
+    color: #000000;
+    padding-left: 10px;
+  }
+
+  .ui.top.attached.segment.table__title.statementAll {
+    display: none;
+  }
+
+  div.ui.icon.input {
+    display: none;
+  }
+
+  table.daily_expense_table > thead > th:nth-child(2) {
+    display: none;
+  }
+
+  table.daily_expense_table > tbody > tr > td:nth-child(2) {
+    display: none;
+  }
+}

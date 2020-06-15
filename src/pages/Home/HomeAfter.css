@@ -1,0 +1,90 @@
+.title {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+p {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.dashboard__box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box__first {
+  color: #ffffff !important;
+}
+
+.box__last {
+  color: #ffffff !important;
+  padding: 10px;
+}
+
+.side {
+  background: linear-gradient(60deg, #ab47bc, #8e24aa) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(156, 39, 176, 0.4) !important;
+}
+.budget {
+  background: linear-gradient(60deg, #ab47bc, #8e24aa) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(156, 39, 176, 0.4) !important;
+}
+
+.income {
+  background: linear-gradient(60deg, #66bb6a, #43a047) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(76, 175, 80, 0.4) !important;
+}
+
+.savings {
+  background: linear-gradient(60deg, #26c6da, #00acc1) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(0, 172, 193, 0.4) !important;
+}
+.living_expense {
+  background: linear-gradient(60deg, #ffa726, #fb8c00) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(255, 152, 0, 0.4) !important;
+}
+
+.non_living_expense {
+  background: linear-gradient(60deg, #ef5350, #e53935) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(244, 67, 54, 0.4) !important;
+}
+
+.balance {
+  background-color: #00b5ad !important;
+  height: 10vh;
+}
+
+.bar__chart {
+  height: 60vh;
+}
+
+.currentStatement__link:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .bar__chart {
+    height: 400px;
+  }
+
+  .budget__usage {
+    order: -1;
+  }
+
+  .barChart__order {
+    order: 1;
+  }
+
+  h1.ui.center.aligned.header {
+    font-size: 1.5em !important;
+  }
+}

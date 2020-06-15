@@ -1,0 +1,37 @@
+.HomeBefore__background {
+  background-image: url(hero.jpg) !important;
+  background-size: cover;
+  margin: 0px !important;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.HomeBefore__title {
+  font-size: 4em;
+  color: white;
+  margin-bottom: 0px;
+}
+
+.HomeBefore__subtitle {
+  color: white;
+  margin: 0px;
+}
+
+.HomeBefore__body {
+  color: white;
+}
+
+.HomeBefore__button {
+  font-size: 3em;
+  font-weight: bold;
+  color: white;
+  border: 3px solid white;
+  padding: 5px 20px;
+  border-radius: 15px;
+}
+
+.HomeBefore__button:hover {
+  cursor: pointer;
+  color: white;
+}
